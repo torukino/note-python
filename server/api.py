@@ -22,5 +22,7 @@ app.add_middleware(
 
 @app.get("/")
 def noteList():
-    output={"100001":"HCV", "100002":"MRI禁"}
+    output=[{"karteNo":"100001","content":"HCV"},
+            {"karteNo":"100012","content":"MRI禁"},
+            {"karteNo":"100023","content":"あーだこーだ"} ]
     return output
