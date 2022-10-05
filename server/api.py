@@ -6,9 +6,9 @@ app = FastAPI()
 
 origins = [
     "http://localhost:3000",
-    "https://drug-simulator-torukino.vercel.app",
-    "https://drug-simulator.vercel.app",
-    "https://drug-simulator-git-main-torukino.vercel.app",
+    "note-next-git-master-torukino.vercel.app",
+    "note-next-torukino.vercel.app",
+    "note-next.vercel.app"
 ]
 
 app.add_middleware(
