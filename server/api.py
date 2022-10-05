@@ -6,9 +6,9 @@ app = FastAPI()
 
 origins = [
     "http://localhost:3000",
-    "note-next-git-master-torukino.vercel.app",
-    "note-next-torukino.vercel.app",
-    "note-next.vercel.app"
+    "https://note-next-git-master-torukino.vercel.app",
+    "https://note-next-torukino.vercel.app",
+    "https://note-next.vercel.app"
 ]
 
 app.add_middleware(
