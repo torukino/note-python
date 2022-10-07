@@ -1,37 +1,24 @@
-from model import Todo
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+from typing import List
+# firebase_admin.initialize_app()
 
-# mongoDB driver
-import motor.motor_asyncio
-from pymongo import MongoClient
-import pymongo
+if not firebase_admin._apps:
+  j ="tejunproject-firebase-adminsdk-urm6y-36c021e98d.json"
+  cred = credentials.Certificate(j)
+  firebase_admin.initialize_app(cred)
 
-client = motor.motor_asyncio.AsyncIOMotorClient('mongodb+srv://<username>:<password>@cluster0.zbuzx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority')
-database = client.TodoList
-collection = database.todo
 
-async def fetch_one_todo(title):
-  document = await collection.find_one({"title":title})
-  return document
 
-async def fetch_all_todos():
-  todos = []
-  cursor = collection.find({})
-  async for document in cursor:
-    todos.append(Todo(**document))
-  return todos
 
-async def create_todo(todo):
-  document = todo
-  result = await collection.insert_one(document)
-  return document
-
-async def update_todo(title, desc):
-  await collection.update_one({"title":title}, {"$set": {
-    'description': desc
-  }})
-  document = await collection.find_one({"title": title})
-  return document
-
-async def remove_todo(title):
-  await collection.delete_one({"title":title})
-  return True
+async def getNotes()->List:
+  db = firestore.client()
+  ref = db.collection('notes')
+  docs = ref.stream()
+  for doc in docs:
+    print(
+      f"カルテ番号:{doc.get('karuteNo')} "
+      f"禁止:{doc.get('note')} "
+      )
+  return docs

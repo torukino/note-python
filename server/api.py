@@ -1,13 +1,8 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from database import (
-  fetch_one_todo,
-  fetch_all_todos,
-  create_todo,
-  update_todo,
-  remove_todo,
-)
-from model import Todo
+from .database import getNotes
+from .model import Note
+from typing import List, Dict
 
 app = FastAPI()
 
@@ -46,25 +41,6 @@ app.add_middleware(
 )
 
 @app.get("/")
-def read_root():
-    
-  return {"Hello world"}
-
-@app.get("/api/todo")
-async def get_todo():
-  response = await fetch_all_todos()
-  return response
-
-@app.get("/api/todo{title}", response_model=Todo)
-async def get_todo_by_title(title):
-  response = await fetch_one_todo(title)
-  if response:
-    return response
-  raise HTTPException(404, f"there is no Todo item with this title {title}")
-
-@app.post("/api/todo", response_model=Todo)
-async def post_todo(todo:Todo):
-  response = await create_todo(todo.dict())
-  if response:
-    return response
-  raise HTTPException(400, "Sometheng went wrong / Bad Request")
+async def read_root()->List[Note]:
+  docs = await getNotes()
+  return {"test":"hello"}
