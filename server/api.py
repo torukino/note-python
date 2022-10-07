@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from .database import getNotes
+from .database import getNotes, addNotes
 from .model import Note
 from typing import List, Dict
 
@@ -41,6 +41,10 @@ app.add_middleware(
 )
 
 @app.get("/")
-async def read_root()->List[Note]:
-  docs = await getNotes()
-  return {"test":"hello"}
+async def read_note()->List[Note]:
+  notes = await getNotes()
+  return notes
+
+@app.post("/post/")
+async def write_note(notes:List[Note]):
+  await addNotes(notes)
