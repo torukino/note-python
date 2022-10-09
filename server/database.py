@@ -19,13 +19,23 @@ async def getNotes()->List:
   list = []
   for doc in docs:
     list.append(doc.to_dict())
-  # for doc in docs:
-  #   print(
-  #     f"カルテ番号:{doc.get('karuteNo')} "
-  #     f"注意ﾘｽﾄ:{doc.get('note')} "
-  #     )
   return list
 
-async def addNotes(notes:List[Note]):
-  for note in notes:
-    await ref.document(note.karuteNo).set(note)
+def addNotes(notes:List[Note])->List[Note]:
+    for note in notes:
+        note_ = {"karuteNo":note.karuteNo, 
+                 "note":note.note if note.note != None else '',
+                 "name":note.name if note.name != None else '',
+                 "kana":note.kana if note.kana != None else '',
+                 "gender":note.gender if note.gender != None else '',
+                 "nengo":note.nengo if note.nengo != None else '',
+                 "birthYear":note.birthYear if note.birthYear != None else '',
+                 "birthMonth":note.birthMonth if note.birthMonth != None else '',
+                 "birthDay":note.birthDay if note.birthDay != None else '',
+                 "address1":note.address1 if note.address1 != None else '',
+                 "address2":note.address2 if note.address2 != None else '',
+                 "tel":note.tel if note.tel != None else '',
+                 "zipcode":note.zipcode if note.zipcode != None else '',
+                 }
+        ref.document(note.karuteNo).set(note_)
+    return notes
